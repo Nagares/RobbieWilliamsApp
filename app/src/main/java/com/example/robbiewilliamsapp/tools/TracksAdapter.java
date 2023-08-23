@@ -1,15 +1,11 @@
 package com.example.robbiewilliamsapp.tools;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,16 +17,12 @@ import com.example.robbiewilliamsapp.R;
 import com.example.robbiewilliamsapp.models.Track;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.List;
 
 public class TracksAdapter extends ArrayAdapter<Track> {
-    MediaPlayer mediaPlayer ;
 
     public TracksAdapter(@NonNull Context context, int resource, @NonNull List<Track> objects) {
-
         super(context, resource, objects);
-
     }
 
     @NonNull
@@ -38,9 +30,9 @@ public class TracksAdapter extends ArrayAdapter<Track> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         Track track = getItem(position);
-        Log.d("###","");
+        Log.d("TrackAdapter", "Convert track to view item");
 
-        if(convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.record_item, parent, false);
         }
         TextView tvRecordName = convertView.findViewById(R.id.tvRecordName);
@@ -56,56 +48,36 @@ public class TracksAdapter extends ArrayAdapter<Track> {
         textRelease.setText(track.getAlbum().getRelease_date());
         Picasso.get().load(track.getAlbum().getImages().get(1).getUrl()).into(ivRecordArtist);
 
-
-
-        //TODO  handle button
+        // add to the list for later usages
+        SpotifyAppRemoteClient.getInstance().getImageButtons().add(ibtRecord);
 
         ibtRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayer = new MediaPlayer();
                 ImageButton ibt = (ImageButton) view;
 
                 try {
+                    if (!SpotifyAppRemoteClient.getInstance().isPlaying() ||
+                            !track.getUri().equals(SpotifyAppRemoteClient.getInstance().getCurrentTrackUri())
+                    ) {
+                        SpotifyAppRemoteClient.getInstance().setPlayIconToAll();
+                        ibtRecord.setImageResource(R.drawable.icons_stop);
+                        ibt.setContentDescription(track.getUri());
+                        Log.d("TrackAdapter", "Track preview url:" + track.getPreview_url());
+                        SpotifyAppRemoteClient.getInstance().play(track.getUri(), track.getName());
 
-
-                if (ibt.getContentDescription().equals(" ")) {
-
-                    ibtRecord.setImageResource(R.drawable.icons_play);
-                    ibt.setContentDescription(".");
-                    Log.d("&&&&#",track.getPreview_url()+"**");
-                    playMedia(track.getPreview_url());         // TODO need fined work url or uri
-                                                              //TODO playMedia
-
-                }else{
-                        ibtRecord.setImageResource(R.drawable.icons_pause);
-                        ibt.setContentDescription(" ");
-                        mediaPlayer.stop();
-
+                    } else {
+                        ibtRecord.setImageResource(R.drawable.icons_play);
+                        ibt.setContentDescription("");
+                        SpotifyAppRemoteClient.getInstance().stop();
+                    }
+                } catch (Exception e) {
+                    Log.d("TrackAdapter", "Failed to start track:" + track.getUri() + " exception:" + e.getMessage());
                 }
-                }catch (Exception e){
-                    Log.d("&&&&",e.getMessage());
-                }
-
-
             }
         });
 
-    return convertView;
+        return convertView;
     }
-
-    public void playMedia(String mediaUrl) {
-        Log.d("&&&&#",mediaUrl+"**");
-
-        try {
-            mediaPlayer.reset();
-            mediaPlayer.setDataSource( mediaUrl);
-            mediaPlayer.prepareAsync();
-            mediaPlayer.start();
-        } catch (IOException e) {
-            Log.d("&&&&",e.getMessage());
-        }
-    }
-
 
 }

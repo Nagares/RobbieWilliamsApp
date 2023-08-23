@@ -10,13 +10,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.robbiewilliamsapp.models.ClientCredo;
+import com.example.robbiewilliamsapp.tools.SpotifyAppRemoteClient;
 import com.example.robbiewilliamsapp.tools.SpotifyAuthentication;
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +66,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // prepare connectionParams for spotify remote app connection
+        ConnectionParams connectionParams =
+                new ConnectionParams.Builder(ClientCredo.getInstance().CLIENT_ID)
+                        .setRedirectUri(ClientCredo.getInstance().REDIRECT_URI)
+                        .showAuthView(true)
+                        .build();
+
+        // connect to spotify remote app
+        SpotifyAppRemote.connect(this, connectionParams,
+                new Connector.ConnectionListener() {
+
+                    @Override
+                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                        SpotifyAppRemoteClient.getInstance().setSpotifyAppRemote(spotifyAppRemote);
+                        Log.d("MainActivity", "Connected to remote spotify app!");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Log.e("MainActivity", throwable.getMessage(), throwable);
+                    }
+                });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(SpotifyAppRemoteClient.getInstance().isPlaying()){
+            SpotifyAppRemoteClient.getInstance().stop();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
