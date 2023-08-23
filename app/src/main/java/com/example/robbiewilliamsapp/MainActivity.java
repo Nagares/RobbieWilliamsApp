@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 
 import com.example.robbiewilliamsapp.models.ClientCredo;
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         toolbar = findViewById(R.id.toolbar);
-        Button button = findViewById(R.id.button);
+
 
         setSupportActionBar(toolbar); //TODO replayce after 1 hour
 
@@ -55,14 +54,8 @@ public class MainActivity extends AppCompatActivity {
 //        handler.postDelayed(tokenGenerationRunnable, 3600000);
 
 
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                SpotifyAuthentication.generateToken();
-//            }
-//        });
 
-//        loadFragment(new MainFragment());
+        loadFragment(new WelcomeFragment());
     }
 
 

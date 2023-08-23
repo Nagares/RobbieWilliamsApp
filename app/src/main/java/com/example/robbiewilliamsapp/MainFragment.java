@@ -27,11 +27,11 @@ import retrofit2.Response;
 public class MainFragment extends Fragment {
 
 
-    TextView tvName ;
-    TextView Popularity ;
-    TextView tvGenres ;
-    TextView tvFollowers ;
-    ImageView ivArtist ;
+    TextView tvName;
+    TextView Popularity;
+    TextView tvGenres;
+    TextView tvFollowers;
+    ImageView ivArtist;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,35 +52,37 @@ public class MainFragment extends Fragment {
         Call<ArtistAllInfo> call = RetrofitService.getInstance().getClientApi().getArtist(header);
 
 
-            call.enqueue(new Callback<ArtistAllInfo>() {
-                @Override
-                public void onResponse(Call<ArtistAllInfo> call, Response<ArtistAllInfo> response) {
-                    ArtistAllInfo artist = response.body();
+        call.enqueue(new Callback<ArtistAllInfo>() {
+            @Override
+            public void onResponse(Call<ArtistAllInfo> call, Response<ArtistAllInfo> response) {
+                ArtistAllInfo artist = response.body();
+                String genre = "";
 
-                    String genre= String.join(" ", artist.getGenres());
-
-
-                    try{
-
-                        tvName.setText(artist.getName());
-                        Popularity.setText(String.valueOf(artist.getPopularity()));
-                        tvGenres.setText(genre);
-                        tvFollowers.setText(String.valueOf(artist.getFollowers().getTotal()));
-                        Picasso.get().load(artist.getImages().get(1).getUrl()).into(ivArtist);
-
-                        Log.d("###", artist.getImages().get(0).getHeight()+"");
-
-                    }catch (Exception ex){
-                        Log.d("###", ex.getMessage());
-                    }
-
+                if (artist != null && artist.getGenres() != null ) {
+                     genre = String.join(" ", artist.getGenres());
                 }
 
-                @Override
-                public void onFailure(Call<ArtistAllInfo> call, Throwable t) {
-                    Log.d("&&&&&", t.getMessage());
+                try {
+
+                    tvName.setText(artist.getName());
+                    Popularity.setText(String.valueOf(artist.getPopularity()));
+                    tvGenres.setText(genre);
+                    tvFollowers.setText(String.valueOf(artist.getFollowers().getTotal()));
+                    Picasso.get().load(artist.getImages().get(1).getUrl()).into(ivArtist);
+
+                    Log.d("###", artist.getImages().get(0).getHeight() + "");
+
+                } catch (Exception ex) {
+                    Log.d("###", ex.getMessage());
                 }
-            });
+
+            }
+
+            @Override
+            public void onFailure(Call<ArtistAllInfo> call, Throwable t) {
+                Log.d("&&&&&", t.getMessage());
+            }
+        });
 
         return view;
     }

@@ -3,8 +3,8 @@ package com.example.robbiewilliamsapp.models;
 public class ClientCredo {
 
     static ClientCredo clientCredo = null;
-    public final String CLIENT_ID = "87e797b690b3421e8e7f0a0af0d5ab16";
-    public final String CLIENT_SECRET = "11433a8cbed44d3eab80a70fd99685b1";
+    public final String CLIENT_ID = "d67d94959d9e43dfa017c8aa58ff1979";
+    public final String CLIENT_SECRET = "1ce4602e56bd4a8daf15cb464d539ea4";
     public final String REDIRECT_URI = "com.example.robbiewilliamsapp://callback";
 
     String ClientToken ;

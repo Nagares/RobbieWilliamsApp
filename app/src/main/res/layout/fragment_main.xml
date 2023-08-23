@@ -121,13 +121,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_name1"
-                    android:textColor="@color/gray" />
+                    android:textColor="@color/gray"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray" />
+                    android:layout_marginLeft="6dp"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
 
             </TableRow>
 
@@ -138,13 +142,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_popularity"
-                    android:textColor="@color/gray" />
+                    android:textColor="@color/gray"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvPopularity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray" />
+                    android:layout_marginLeft="6dp"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
             </TableRow>
 
             <TableRow>
@@ -154,13 +162,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_genres"
-                    android:textColor="@color/gray" />
+                    android:textColor="@color/gray"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvGenres"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray" />
+                    android:layout_marginLeft="6dp"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
 
             </TableRow>
 
@@ -171,13 +183,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/tv_followers"
-                    android:textColor="@color/gray" />
+                    android:textColor="@color/gray"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvFollowers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray" />
+                    android:layout_marginLeft="6dp"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
 
             </TableRow>
         </TableLayout>
